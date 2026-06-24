@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+.venv/
+
+# Local planning scratch, not needed for the public project.
+docs/plans/
