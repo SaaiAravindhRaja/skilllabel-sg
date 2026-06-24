@@ -895,6 +895,18 @@ function ComparePanel({
 }) {
   const hasComparator = compareText.trim().length > 0;
   const isRepairComparator = Boolean(repairPlan?.text && compareText.trim() === repairPlan.text.trim());
+  const hasTrialSubmission = trialSubmissionText.trim().length > 0;
+  const trialProofPanel = (
+    <TrialProofPanel
+      proof={trialProof}
+      submissionText={trialSubmissionText}
+      onSubmissionTextChange={onTrialSubmissionTextChange}
+      onLoadSample={onLoadTrialProof}
+      onPromoteProof={onPromoteTrialProof}
+      onClear={onClearTrialProof}
+    />
+  );
+  const repairPlanPreview = <RepairPlanPreview plan={repairPlan} />;
   const metrics = [
     ["Coverage", comparison.deltas.coverage],
     ["Ability", comparison.deltas.ability],
@@ -976,15 +988,8 @@ function ComparePanel({
 
       {isRepairComparator ? (
         <>
-          <RepairPlanPreview plan={repairPlan} />
-          <TrialProofPanel
-            proof={trialProof}
-            submissionText={trialSubmissionText}
-            onSubmissionTextChange={onTrialSubmissionTextChange}
-            onLoadSample={onLoadTrialProof}
-            onPromoteProof={onPromoteTrialProof}
-            onClear={onClearTrialProof}
-          />
+          {hasTrialSubmission ? trialProofPanel : repairPlanPreview}
+          {hasTrialSubmission ? repairPlanPreview : trialProofPanel}
         </>
       ) : null}
 
@@ -1240,7 +1245,7 @@ function ExportBrief({ label, plan, proofImpact, sourceFiles, onLoadProofDraft }
       {repairTemplate.gates.length ? (
         <div className="export-proof-template">
           <div className="proof-template-header">
-            <span>Missing proof format</span>
+            <span>{label.decision.status === "Ready" ? "Final proof format" : "Missing proof format"}</span>
             <button type="button" onClick={onLoadProofDraft}>
               Load draft
             </button>
@@ -1481,7 +1486,7 @@ export default function App() {
     setCompareFollowsRole(true);
     setTrialSubmissionText(buildTrialSubmissionSample(repairPlan));
     setActiveNav("Compare");
-    window.setTimeout(() => document.querySelector(".trial-proof-panel")?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
+    window.setTimeout(() => document.querySelector("#compare")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
   };
 
   const promoteTrialProof = () => {
