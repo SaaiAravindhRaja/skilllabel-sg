@@ -382,7 +382,6 @@ function ProductRail({ activeItem, onNavigate }) {
   return (
     <aside className="app-rail" aria-label="SkillLabel navigation">
       <div className="brand-lockup">
-        <div className="brand-mark">SL</div>
         <div>
           <strong>SkillLabel</strong>
           <span>Evidence audit</span>
