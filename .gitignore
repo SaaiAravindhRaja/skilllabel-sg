@@ -7,3 +7,4 @@ dist/
 
 # Local planning scratch, not needed for the public project.
 docs/plans/
+.vercel
